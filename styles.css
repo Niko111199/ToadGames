@@ -1,0 +1,70 @@
+
+body
+{
+background-image: url("Img/Background.png");
+background-repeat: norepeat;
+background-attachment:fixed;
+background-size: cover;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333333;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 16px;
+  text-decoration: none;
+}
+
+li a:hover {
+  background-color: #111111;
+}
+
+.download-button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #228B22;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .download-button:hover {
+            background-color: #0056b3;
+        }
+
+#rounded_corners
+{
+    border-radius: 25px;
+    background: #FFFFFF;
+    opacity: 0.9;
+    padding: 20px;
+    width: 60%;
+    font-size:medium;
+    font-family: Verdana, Geneva, sans-serif;
+    align-self: center;
+    -webkit-box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.5);
+    box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.5);
+}
+
+#center_container
+{
+    height: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

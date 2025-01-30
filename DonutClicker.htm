@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html>
+<meta charset="UTF-8">
+<head>
+<title>Donut Clicker</title>
+<link rel="stylesheet" href="C:\Users\niko1\Desktop\ToadGames.dk\styles.css">
+<style>
+body
+{
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+button
+ {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 200px;
+    height: 100px;
+    border: none;
+    border-radius: 10px;
+    background-color: #f8f9fa;
+box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    margin: 10px;
+}
+
+</style>
+</head>
+<body>
+
+<ul>
+  <li><a href="index.htm">Home</a></li>
+  <li><a href="games.htm">Games</a></li>
+  <li><a href="projects.htm">Projects</a></li>
+  <li><a href="about.htm">About</a></li>
+</ul>
+
+<h1 style="color: white;"> Donut Clicker </h1>
+
+<p style="color: white;">Donuts: <span id="no_donuts">0</span></p>
+
+<p style="color: white;">AutoClickers: <span id="no_autoClickers">0</span></p>
+
+<!-- DonutMakers-linje starter skjult -->
+<p id="DonutMakersRow" style="display: none; color: white;">DonutMakers: <span id="no_DonutMakers">0</span></p>
+
+<!-- DonutStore-linje starter skjult -->
+<p id="DonutStoreRow" style="display: none;  color: white;">DonutStores: <span id="no_DonutStores">0</span></p>
+
+<!-- DonutFactory-linje starter skjult -->
+<p id="DonutFactoryRow" style="display: none;  color: white;">DonutFactories: <span id="no_DonutFactories">0</span></p>
+
+<!-- DonutTree-linje starter skjult -->
+<p id="DonutTreeRow" style="display: none;  color: white;">DonutTrees: <span id="no_DonutTrees">0</span></p>
+
+<button onclick="makeDonut()">
+  <span style="font-size: 45px;">&#127849;</span> <br> Make Donut
+</button>
+
+
+<div style="display: flex; flex-direction: column; align-items: flex-end; width: 100%;">
+        <button onclick="makeAutoClicker()">
+    <span style="font-size: 45px;">&#128070;</span> <!-- Emoji -->
+    <div style="margin-top: 10px;">
+            Buy AutoClicker (Price: <span id="autoClicker_price">10</span>)
+        </button>
+    </div>
+</div>
+
+
+<!-- DonutMaker-knappen starter skjult -->
+<div style="display: flex; flex-direction: column; align-items: flex-end; width: 100%;">
+      <button id="DonutMaker" onclick="buyDonutMaker()" style="display: none;">
+    <span style="font-size: 45px;">&#128587;</span> <!-- Emoji -->
+    <div style="margin-top: 10px;">
+            Buy DonutMaker (Price: <span id="DonutMakerPrice">100</span>)
+        </button>
+    </div>
+</div>
+
+
+<!-- DonutStore-knappen starter skjult -->
+<div style="display: flex; flex-direction: column; align-items: flex-end; width: 100%;">
+      <button id="DonutStore" onclick="buyDonutStore()" style="display: none;">
+    <span style="font-size: 45px;">&#127968;</span> <!-- Emoji -->
+    <div style="margin-top: 10px;">
+           Buy DonutStore (Price: <span id="DonutStorePrice">1000</span>)
+        </button>
+    </div>
+</div>
+
+
+<!-- DonutFactory-knappen starter skjult -->
+<div style="display: flex; flex-direction: column; align-items: flex-end; width: 100%;">
+      <button id="DonutFactory" onclick="buyDonutFactory()" style="display:none;">
+    <span style="font-size: 45px;">&#127981;</span> <!-- Emoji -->
+    <div style="margin-top: 10px;">
+           Buy DonutFactory (Price: <span id="DonutFactoryPrice">10000</span>)
+        </button>
+    </div>
+</div>
+
+
+<!-- DonutTree-knappen starter skjult -->
+<div style="display: flex; flex-direction: column; align-items: flex-end; width: 100%;">
+     <button id="DonutTree" onclick="buyDonutTree()" style="display:none;">
+    <span style="font-size: 45px;">&#127795;</span> <!-- Emoji -->
+    <div style="margin-top: 10px;">
+           Plant DonutTree (Price: <span id="DonutTreePrice">100000</span>)
+        </button>
+    </div>
+</div>
+
+
+<!--Donut upgrade er skjult nå man ikke har råd -->
+<div style="display: flex; justify-content: center; height: 20vh;">
+    <button id="upgradeDonutButton" style="width: 50px; height: 35px; font-size: 20px; padding: 5px; display: none;" 
+            title="Upgrade donut - price: "" Donuts" 
+            onclick="playerClickUpgrade()">&#127849</button>
+</div>
+
+<button onclick="restartGame()">Restart Game</button>
+
+<script>
+let donuts = 0;
+let autoClickers = 0;
+let autoClickerPrice = 10;
+let priceMultiplier = 1.2;
+let donutMakers = 0;
+let donutMakerPrice = 100;
+let donutStores = 0;
+let donutStorePrice = 1000;
+let donutFactories = 0;
+let donutFactoryPrice = 10000;
+let donutTrees = 0;
+let donutTreePrice = 100000;
+let donutmulitplier = 1;
+let donutmulitiplierprice = 250;
+
+// Gemme data i localStorage
+function saveGame() {
+    localStorage.setItem('donuts', donuts);
+    localStorage.setItem('autoClickers', autoClickers);
+    localStorage.setItem('autoClickerPrice', autoClickerPrice);
+    localStorage.setItem('donutMakers', donutMakers);
+    localStorage.setItem('donutMakerPrice', donutMakerPrice);
+    localStorage.setItem('donutStores', donutStores);
+    localStorage.setItem('donutStorePrice', donutStorePrice);
+    localStorage.setItem('donutFactories', donutFactories);
+    localStorage.setItem('donutFactoryPrice', donutFactoryPrice);
+    localStorage.setItem('donutTrees', donutTrees);
+    localStorage.setItem('donutTreePrice', donutTreePrice);
+    localStorage.setItem('donutMultiplier', donutmulitplier);
+    localStorage.setItem('donutMultiplierPrice', donutmulitiplierprice);
+}
+
+// Indlæs data fra localStorage
+function loadGame() {
+    donuts = parseInt(localStorage.getItem('donuts')) || 0;
+    autoClickers = parseInt(localStorage.getItem('autoClickers')) || 0;
+    autoClickerPrice = parseInt(localStorage.getItem('autoClickerPrice')) || 10;
+    donutMakers = parseInt(localStorage.getItem('donutMakers')) || 0;
+    donutMakerPrice = parseInt(localStorage.getItem('donutMakerPrice')) || 100;
+    donutStores = parseInt(localStorage.getItem('donutStores')) || 0;
+    donutStorePrice = parseInt(localStorage.getItem('donutStorePrice')) || 1000;
+    donutFactories = parseInt(localStorage.getItem('donutFactories')) || 0;
+    donutFactoryPrice = parseInt(localStorage.getItem('donutFactoryPrice')) || 10000;
+    donutTrees = parseInt(localStorage.getItem('donutTrees')) || 0;
+    donutTreePrice = parseInt(localStorage.getItem('donutTreePrice')) || 100000;
+    donutmulitplier = parseInt(localStorage.getItem('donutMultiplier')) || 1;
+    donutmulitiplierprice = parseInt(localStorage.getItem('donutMultiplierPrice')) || 250;
+
+
+    // Opdater UI med de indlæste værdier
+    document.getElementById("no_donuts").innerHTML = donuts;
+    document.getElementById("no_autoClickers").innerHTML = autoClickers;
+    document.getElementById("autoClicker_price").innerHTML = autoClickerPrice;
+    document.getElementById("no_DonutMakers").innerHTML = donutMakers;
+    document.getElementById("DonutMakerPrice").innerHTML = donutMakerPrice;
+    document.getElementById("no_DonutStores").innerHTML = donutStores;
+    document.getElementById("DonutStorePrice").innerHTML = donutStorePrice;
+    document.getElementById("no_DonutFactories").innerHTML = donutFactories;
+    document.getElementById("DonutFactoryPrice").innerHTML = donutFactoryPrice;
+    document.getElementById("no_DonutTrees").innerHTML = donutTrees;
+    document.getElementById("DonutTreePrice").innerHTML = donutTreePrice;
+}
+
+// Kald loadGame, når spillet starter
+window.onload = loadGame;
+
+
+// Genstart spillet
+function restartGame() {
+    // Slet alle data fra localStorage
+    localStorage.clear();
+    
+    // Nulstil alle værdier
+    donuts = 0;
+    autoClickers = 0;
+    autoClickerPrice = 10;
+    donutMakers = 0;
+    donutMakerPrice = 100;
+    donutStores = 0;
+    donutStorePrice = 1000;
+    donutFactories = 0;
+    donutFactoryPrice = 10000;
+    donutTrees = 0;
+    donutTreePrice = 100000;
+    
+    // Opdater UI med nulstillede værdier
+    document.getElementById("no_donuts").innerHTML = donuts;
+    document.getElementById("no_autoClickers").innerHTML = autoClickers;
+    document.getElementById("autoClicker_price").innerHTML = autoClickerPrice;
+    document.getElementById("no_DonutMakers").innerHTML = donutMakers;
+    document.getElementById("DonutMakerPrice").innerHTML = donutMakerPrice;
+    document.getElementById("no_DonutStores").innerHTML = donutStores;
+    document.getElementById("DonutStorePrice").innerHTML = donutStorePrice;
+    document.getElementById("no_DonutFactories").innerHTML = donutFactories;
+    document.getElementById("DonutFactoryPrice").innerHTML = donutFactoryPrice;
+    document.getElementById("no_DonutTrees").innerHTML = donutTrees;
+    document.getElementById("DonutTreePrice").innerHTML = donutTreePrice;
+    
+    // Skjul eventuelle købte opgraderinger
+    document.getElementById("DonutMaker").style.display = "none";
+    document.getElementById("DonutStore").style.display = "none";
+    document.getElementById("DonutFactory").style.display = "none";
+    document.getElementById("DonutTree").style.display = "none";
+    
+    // Gem de nye standardværdier
+    saveGame();
+}
+
+
+// Opdater donut-tallet
+function makeDonut() {
+    donuts += 1 * donutmulitplier;
+    document.getElementById("no_donuts").innerHTML = donuts;
+    saveGame();
+    checkUpgradeAvailability();
+}
+
+// Køb AutoClicker
+function makeAutoClicker() {
+    if (donuts >= autoClickerPrice) {
+        donuts -= autoClickerPrice;
+        autoClickerPrice = Math.ceil(autoClickerPrice * priceMultiplier);
+        autoClickers += 1;
+
+        document.getElementById("no_donuts").innerHTML = donuts;
+        document.getElementById("no_autoClickers").innerHTML = autoClickers;
+        document.getElementById("autoClicker_price").innerHTML = autoClickerPrice;
+
+        // Tjek om vi skal vise DonutMaker-knappen
+        if (autoClickers >= 10) {
+            document.getElementById("DonutMaker").style.display = "inline";
+        }
+        saveGame();
+    }
+}
+
+// Køb DonutMaker
+function buyDonutMaker() {
+    if (donuts >= donutMakerPrice) {
+        donuts -= donutMakerPrice;
+        donutMakerPrice = Math.ceil(donutMakerPrice * priceMultiplier);
+        donutMakers += 1;
+
+        document.getElementById("no_donuts").innerHTML = donuts;
+        document.getElementById("DonutMakerPrice").innerHTML = donutMakerPrice;
+        document.getElementById("no_DonutMakers").innerHTML = donutMakers;
+
+        if (donutMakers === 1) {
+            document.getElementById("DonutMakersRow").style.display = "block";
+        }
+
+        if (donutMakers >= 10) {
+            document.getElementById("DonutStore").style.display = "inline";
+        }
+        saveGame();
+    }
+}
+
+// Køb DonutStore
+function buyDonutStore() {
+    if (donuts >= donutStorePrice) {
+        donuts -= donutStorePrice;
+        donutStorePrice = Math.ceil(donutStorePrice * priceMultiplier);
+        donutStores += 1;
+
+        document.getElementById("no_donuts").innerHTML = donuts;
+        document.getElementById("DonutStorePrice").innerHTML = donutStorePrice;
+        document.getElementById("no_DonutStores").innerHTML = donutStores;
+
+        if (donutStores === 1) {
+            document.getElementById("DonutStoreRow").style.display = "block";
+        }
+
+        if (donutStores >= 10) {
+            document.getElementById("DonutFactory").style.display = "inline";
+        }
+        saveGame();
+    }
+}
+
+// Køb DonutFactory
+function buyDonutFactory() {
+    if (donuts >= donutFactoryPrice) {
+        donuts -= donutFactoryPrice;
+        donutFactoryPrice = Math.ceil(donutFactoryPrice * priceMultiplier);
+        donutFactories += 1;
+
+        document.getElementById("no_donuts").innerHTML = donuts;
+        document.getElementById("DonutFactoryPrice").innerHTML = donutFactoryPrice;
+        document.getElementById("no_DonutFactories").innerHTML = donutFactories;
+
+        if (donutFactories === 1) {
+            document.getElementById("DonutFactoryRow").style.display = "block";
+        }
+
+        if (donutFactories >= 10) {
+            document.getElementById("DonutTree").style.display = "inline";
+        }
+        saveGame();
+    }
+}
+
+// Køb DonutTree
+function buyDonutTree() {
+    if (donuts >= donutTreePrice) {
+        donuts -= donutTreePrice;
+        donutTreePrice = Math.ceil(donutTreePrice * priceMultiplier);
+        donutTrees += 1;
+
+        document.getElementById("no_donuts").innerHTML = donuts;
+        document.getElementById("DonutTreePrice").innerHTML = donutTreePrice;
+        document.getElementById("no_DonutTrees").innerHTML = donutTrees;
+
+        if (donutTrees === 1) {
+            document.getElementById("DonutTreeRow").style.display = "block";
+        }
+        saveGame();
+    }
+}
+
+// AutoClickers genererer 1 donut hver 10. sekund
+setInterval(() => {
+    if (autoClickers > 0) {
+        donuts += autoClickers;
+        document.getElementById("no_donuts").innerHTML = donuts;
+        saveGame();
+    }
+}, 10000); // 10 sekunder
+
+// DonutMakers genererer 1 donut per sekund hver
+setInterval(() => {
+    if (donutMakers > 0) {
+        donuts += donutMakers;
+        document.getElementById("no_donuts").innerHTML = donuts;
+        saveGame();
+    }
+}, 1000); // 1 sekund
+
+// DonutStores genererer 5 donuts per sekund hver
+setInterval(() => {
+    if (donutStores > 0) {
+        donuts += donutStores * 5;
+        document.getElementById("no_donuts").innerHTML = donuts;
+        saveGame();
+    }
+}, 1000);
+
+// DonutFactories genererer 50 donuts per sekund hver
+setInterval(() => {
+    if (donutFactories > 0) {
+        donuts += donutFactories * 50;
+        document.getElementById("no_donuts").innerHTML = donuts;
+        saveGame();
+    }
+}, 1000);
+
+// DonutTrees genererer 100 donuts per 0.5 sekund hver
+setInterval(() => {
+    if (donutTrees > 0) {
+        donuts += donutTrees * 100;
+        document.getElementById("no_donuts").innerHTML = donuts;
+        saveGame();
+    }
+}, 500);
+
+//gøre at tryk giver flere donuts
+function playerClickUpgrade() {
+    if (donuts >= donutmulitiplierprice) {
+        donuts -= donutmulitiplierprice;
+        donutmulitplier *= 2;
+        donutmulitiplierprice = Math.ceil(donutmulitiplierprice * 4);
+        
+        document.getElementById("no_donuts").innerHTML = donuts;
+        document.getElementById("upgradeDonutButton").title = "Upgrade donut - price: " + donutmulitiplierprice + " Donuts";
+        
+        saveGame(); // Sørg for at gemme opgraderingen
+        checkUpgradeAvailability();
+    }
+}
+
+
+function checkUpgradeAvailability() {
+    if (donuts >= (donutmulitiplierprice / 2)) {
+        document.getElementById("upgradeDonutButton").style.display = "block";
+    } else {
+        document.getElementById("upgradeDonutButton").style.display = "none";
+    }
+   document.getElementById("upgradeDonutButton").title = "Upgrade donut - price: " + donutmulitiplierprice + " Donuts";
+}
+
+</script>
+
+</body>
+</html>
